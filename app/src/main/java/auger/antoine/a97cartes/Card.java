@@ -28,14 +28,18 @@ public class Card {
             }
         }
 
-
-
+        //Changement du texte
         TextView text = (TextView) current;
         text.setText(String.valueOf(this.value));
 
+        //Changement de la couleur
         Drawable drawable = current.getResources().getDrawable(this.color);
         current.setBackground(drawable);
 
+    }
+
+    public String getValue(){
+        return String.valueOf(this.value);
     }
 
 

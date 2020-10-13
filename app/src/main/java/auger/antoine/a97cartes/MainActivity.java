@@ -14,7 +14,9 @@ import java.util.Vector;
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout ll_cards;
+    TextView numofCards;
     Vector <Card> cards = new Vector<>();
+    int numOfCards = 97;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ll_cards = findViewById(R.id.ll_card);
+
+        numofCards = findViewById(R.id.title);
 
 
         Ecouteur ec = new Ecouteur();
@@ -31,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
             if (ll_cards.getChildAt(i) instanceof LinearLayout) {
                 LinearLayout ly = (LinearLayout) ll_cards.getChildAt(i);
                 ly.setOnDragListener(ec);
-                ((TextView) ly.getChildAt(0)).setOnTouchListener(ec);
-                cards.add(new Card(ly.getChildAt(0)));
-                ((TextView) ly.getChildAt(1)).setOnTouchListener(ec);
-                cards.add(new Card(ly.getChildAt(1)));
-
+                for (int c =0;c<ly.getChildCount();c++){
+                    ((TextView) ly.getChildAt(c)).setOnTouchListener(ec);
+                    cards.add(new Card(ly.getChildAt(c)));
+                    numOfCards--;
+                }
             }
         }
+
+        numofCards.setText(String.valueOf(numOfCards)+" cartes restantes");
 
     }
 
