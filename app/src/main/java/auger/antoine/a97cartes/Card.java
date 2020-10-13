@@ -1,6 +1,5 @@
 package auger.antoine.a97cartes;
 
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
@@ -29,12 +28,12 @@ public class Card {
         }
 
         //Changement du texte
-        TextView text = (TextView) current;
+        TextView text = (TextView) this.current;
         text.setText(String.valueOf(this.value));
 
         //Changement de la couleur
-        Drawable drawable = current.getResources().getDrawable(this.color);
-        current.setBackground(drawable);
+        Drawable drawable = this.current.getResources().getDrawable(this.color);
+        this.current.setBackground(drawable);
 
     }
 
