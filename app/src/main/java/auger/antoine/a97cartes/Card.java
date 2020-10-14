@@ -46,5 +46,43 @@ public class Card {
         this.current.setBackground(drawable);
     }
 
+    public int score(int numOfCard, int objValue, String chronometer){
+        int score=0;
+
+        //1.temps
+
+
+        //2. le nombre de cartes restantes
+        //Entre 1-10 selon la dizaine du nombre de cartes restante. Ex. 86 = 2 points, 54 = 5 points etc.
+        double test = Math.floor((double)numOfCard/10);
+
+        for (double i=0.0;i<10.00;i++){
+            if(test == i) score += 10 - (int) i;
+        }
+
+
+        //3.la proximité
+        //Entre 1 et 10
+        if(Math.abs(objValue-this.value)<5){
+            score +=10;
+        }
+        else if(Math.abs(objValue-this.value)<15){
+            score +=5;
+        }
+        else if(Math.abs(objValue-this.value)<25){
+            score +=3;
+        }
+        else{
+            score +=1;
+        }
+
+
+
+        return score;
+
+
+
+    }
+
 
 }

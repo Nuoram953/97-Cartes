@@ -21,11 +21,12 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout ll_cards;
 
 
-    TextView numofCards,bl_text,br_text,tl_text,tr_text;
+    TextView numofCards,bl_text,br_text,tl_text,tr_text,score;
     Chronometer chronometer;
     Vector <Card> everyCards = new Vector<>();
     int numOfCards = 97;
     int missingCards = 0;
+    int totalScore=0;
     boolean cardValid = false;
 
     int firstCard,secondCard;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         numofCards = findViewById(R.id.title);
+        score = findViewById(R.id.score);
 
         tl_obj = findViewById(R.id.tl_obj);
         tr_obj = findViewById(R.id.tr_obj);
@@ -187,6 +189,8 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
+                    System.out.println(chronometer.getText());
+
 
                     //Une fois qu'une carte est utilisée, on trouve sa position dans le vecteur des cartes et on la conserve en mémoire dans la variable "firstCard"
                     if(missingCards == 1 && cardValid){
@@ -198,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
+                        totalScore += everyCards.get(firstCard).score(numOfCards,objValue,String.valueOf(chronometer.getText()));
+                        score.setText(String.valueOf(totalScore));
                         cards.addView(card);
                     }
 
@@ -210,6 +216,9 @@ public class MainActivity extends AppCompatActivity {
                                 secondCard = i;
                             }
                         }
+
+                        totalScore += everyCards.get(secondCard).score(numOfCards,objValue,String.valueOf(chronometer.getText()));
+                        score.setText(String.valueOf(totalScore));
 
                         //On atttribue des nouvelles valeurs au 2 cartes qui ont été utilisés
                         everyCards.get(firstCard).newValues();
