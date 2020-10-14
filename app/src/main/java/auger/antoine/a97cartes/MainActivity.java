@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Chronometer;
 
 import java.util.Vector;
 
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     TextView numofCards,bl_text,br_text,tl_text,tr_text;
+    Chronometer chronometer;
     Vector <Card> everyCards = new Vector<>();
     int numOfCards = 97;
     int missingCards = 0;
@@ -37,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
         ll_cards = findViewById(R.id.ll_card);
         cards = findViewById(R.id.cards);
 
+        chronometer = findViewById(R.id.chronometer);
+        chronometer.start();
+
+
+
+
+
+
+
+
         numofCards = findViewById(R.id.title);
 
         tl_obj = findViewById(R.id.tl_obj);
@@ -50,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
         br_text = findViewById(R.id.br_text);
 
 
-
+        EcouteurTimer et = new EcouteurTimer();
         Ecouteur ec = new Ecouteur();
+
+        chronometer.setOnChronometerTickListener(et);
 
         //Attribution des ecouteurs pour les cards
         for (int i = 0; i < ll_cards.getChildCount(); i++) {
@@ -80,13 +95,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private class EcouteurTimer implements Chronometer.OnChronometerTickListener{
+
+        @Override
+        public void onChronometerTick(Chronometer chronometer) {
+
+        }
+    }
+
+
+
+
     private class Ecouteur implements View.OnTouchListener, View.OnDragListener{
 
         @Override
         public boolean onDrag(View conteneur, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
-                    // do nothing
+
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     //v.setBackgroundDrawable(normalShape);
