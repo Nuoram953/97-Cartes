@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                             tr_text.setText(String.valueOf(oneCard.getText()));
                         }
                         total--;
+                        container.removeView(card);
                     }
                     else{
                         card.setVisibility(View.VISIBLE);
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(total == 7){
                         card.setVisibility(View.INVISIBLE);
-                        for(int i =0;i<everyCards.size();i++){
+                        for(int i=0;i<everyCards.size();i++){
                             if(everyCards.get(i).getValue() == cardValue){
                                 firstCard = i;
                             }
@@ -168,27 +169,20 @@ public class MainActivity extends AppCompatActivity {
                     if(total == 6){
                         cards.addView(card);
 
-                        for(int i =0;i<everyCards.size();i++){
+
+                        for(int i =0;i<everyCards.size()-1;i++){
                             if(everyCards.get(i).getValue() == cardValue){
                                 secondCard = i;
                             }
-
-                            if(firstCard == i){
-                                everyCards.get(firstCard).newValues();
-                            }
-                            if(secondCard == i){
-                                everyCards.get(secondCard).newValues();
-
-                            }
                         }
 
-
+                        everyCards.get(firstCard).newValues();
+                        everyCards.get(secondCard).newValues();
 
                         for(int i=0;i<cards.getChildCount();i++){
                             cards.getChildAt(i).setVisibility(View.VISIBLE);
                         }
                         total=8;
-
                     }
 
                     break;
