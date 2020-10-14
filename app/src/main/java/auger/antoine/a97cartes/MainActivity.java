@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Vector <Card> everyCards = new Vector<>();
     int numOfCards = 97;
     int missingCards = 0;
+    boolean cardValid = false;
 
     int firstCard,secondCard;
 
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                             br_text.setText(String.valueOf(oneCard.getText()));
                         }
                         missingCards++;
+                        cardValid = true;
                         container.removeView(card);
 
                     }
@@ -147,9 +149,11 @@ public class MainActivity extends AppCompatActivity {
                             tr_text.setText(String.valueOf(oneCard.getText()));
                         }
                         missingCards++;
+                        cardValid = true;
                         container.removeView(card);
                     }
                     else{
+                        cardValid = false;
                         card.setVisibility(View.VISIBLE);
                         container.removeView(card);
                         parent.addView(card);
@@ -158,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     //Une fois qu'une carte est utilisée, on trouve sa position dans le vecteur des cartes et on la conserve en mémoire dans la variable "firstCard"
-                    if(missingCards == 1){
+                    if(missingCards == 1 && cardValid){
 
                         card.setVisibility(View.INVISIBLE);
                         for(int i=0;i<everyCards.size();i++){
@@ -166,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                                 firstCard = i;
                             }
                         }
-                        cards.removeView(card);
+
                         cards.addView(card);
                     }
 
