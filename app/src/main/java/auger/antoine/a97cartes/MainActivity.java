@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                         everyCards.add(new Card(ly.getChildAt(c)));
                         numOfCards--;
                     }
-
                 }
             }
         }
@@ -130,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     card.setVisibility(View.INVISIBLE);
 
 
+                    //Vérification si l'objectif peut recevoir la carte selon sa valeur
                     if((container == bl_obj||container==br_obj) && cardValue>objValue){
                         if (container == bl_obj) {
                             bl_text.setText(String.valueOf(oneCard.getText()));
@@ -153,19 +153,24 @@ public class MainActivity extends AppCompatActivity {
                         card.setVisibility(View.VISIBLE);
                         container.removeView(card);
                         parent.addView(card);
+
                     }
 
+
+                    //Une fois qu'une carte est utilisée, on trouve sa position dans le vecteur des cartes et on la conserve en mémoire dans la variable "firstCard"
                     if(missingCards == 1){
+
                         card.setVisibility(View.INVISIBLE);
                         for(int i=0;i<everyCards.size();i++){
                             if(everyCards.get(i).getValue() == cardValue){
                                 firstCard = i;
                             }
                         }
+                        cards.removeView(card);
                         cards.addView(card);
                     }
 
-
+                    //Une fois qu'une 2e carte est utilisée, on trouve sa position dans le vecteur des cartes et on la conserve en mémoire dans la variable "secondCard"
                     if(missingCards == 2){
                         cards.addView(card);
 
@@ -175,10 +180,12 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
+                        //On atttribue des nouvelles valeurs au 2 cartes qui ont été utilisés
                         everyCards.get(firstCard).newValues();
                         everyCards.get(secondCard).newValues();
 
-                        numofCards.setText(String.valueOf(numOfCards-2 + " cartes restantes"));
+                        numOfCards-=2;
+                        numofCards.setText(String.valueOf(numOfCards+ " cartes restantes"));
 
                         for(int i=0;i<cards.getChildCount();i++){
                             cards.getChildAt(i).setVisibility(View.VISIBLE);
