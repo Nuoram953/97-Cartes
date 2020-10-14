@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout tl_obj,tr_obj,bl_obj,br_obj;
     LinearLayout ll_cards;
 
-    TextView numofCards;
+
+    TextView numofCards,bl_text,br_text,tl_text,tr_text;
     Vector <Card> cards = new Vector<>();
     int numOfCards = 97;
 
@@ -39,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         tr_obj = findViewById(R.id.tr_obj);
         bl_obj = findViewById(R.id.bl_obj);
         br_obj = findViewById(R.id.br_obj);
+
+        tl_text = findViewById(R.id.tl_text);
+        tr_text = findViewById(R.id.tr_text);
+        bl_text = findViewById(R.id.bl_text);
+        br_text = findViewById(R.id.br_text);
 
 
 
@@ -91,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case DragEvent.ACTION_DROP:
 
-
-
                     View card = (View) dragEvent.getLocalState();
                     ConstraintLayout parent = (ConstraintLayout) card.getParent();
                     parent.removeView(card);
@@ -100,8 +106,24 @@ public class MainActivity extends AppCompatActivity {
                     ConstraintLayout container = (ConstraintLayout) conteneur;
                     container.addView(card);
 
-                    //card.setVisibility(View.VISIBLE);
 
+                    TextView oneCard = (TextView) card;
+
+                    int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
+                    int objValue = Integer.parseInt(String.valueOf(bl_text.getText()));
+
+
+                   if((container == bl_obj||container==br_obj) && cardValue>objValue){
+                       bl_text.setText(String.valueOf(oneCard.getText()));
+                   }
+                   else if (container == tl_obj||container==tr_obj){
+                       tl_text.setText(String.valueOf(oneCard.getText()));
+                   }
+                   else if (container == tr_obj){
+                       tr_text.setText(String.valueOf(oneCard.getText()));
+                   }
+
+                    //card.setVisibility(View.VISIBLE);
 
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
