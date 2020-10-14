@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 ly.setOnDragListener(ec);
                 for (int c =0;c<ly.getChildCount();c++){
                     if(ly.getChildAt(c) instanceof TextView){
-                        ((TextView) ly.getChildAt(c)).setOnTouchListener(ec);
+                        ly.getChildAt(c).setOnTouchListener(ec);
                         cards.add(new Card(ly.getChildAt(c)));
                         numOfCards--;
                     }
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
                     int objValue = Integer.parseInt(String.valueOf(bl_text.getText()));
 
-
+                    card.setVisibility(View.INVISIBLE);
                    if((container == bl_obj||container==br_obj) && cardValue>objValue){
                        bl_text.setText(String.valueOf(oneCard.getText()));
                    }
@@ -122,8 +122,13 @@ public class MainActivity extends AppCompatActivity {
                    else if (container == tr_obj){
                        tr_text.setText(String.valueOf(oneCard.getText()));
                    }
+                   else{
+                       card.setVisibility(View.VISIBLE);
+                       container.removeView(card);
+                       parent.addView(card);
+                   }
 
-                    //card.setVisibility(View.VISIBLE);
+
 
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
