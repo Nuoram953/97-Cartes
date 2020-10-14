@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     TextView numofCards,bl_text,br_text,tl_text,tr_text;
     Vector <Card> everyCards = new Vector<>();
     int numOfCards = 97;
-    int total = 8;
+    int missingCards = 0;
 
     int firstCard,secondCard;
 
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             br_text.setText(String.valueOf(oneCard.getText()));
                         }
-                        total--;
+                        missingCards++;
                         container.removeView(card);
 
                     }
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             tr_text.setText(String.valueOf(oneCard.getText()));
                         }
-                        total--;
+                        missingCards++;
                         container.removeView(card);
                     }
                     else{
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                         parent.addView(card);
                     }
 
-                    if(total == 7){
+                    if(missingCards == 1){
                         card.setVisibility(View.INVISIBLE);
                         for(int i=0;i<everyCards.size();i++){
                             if(everyCards.get(i).getValue() == cardValue){
@@ -166,9 +166,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
 
-                    if(total == 6){
+                    if(missingCards == 2){
                         cards.addView(card);
-
 
                         for(int i =0;i<everyCards.size()-1;i++){
                             if(everyCards.get(i).getValue() == cardValue){
@@ -179,10 +178,12 @@ public class MainActivity extends AppCompatActivity {
                         everyCards.get(firstCard).newValues();
                         everyCards.get(secondCard).newValues();
 
+                        numofCards.setText(String.valueOf(numOfCards-2 + " cartes restantes"));
+
                         for(int i=0;i<cards.getChildCount();i++){
                             cards.getChildAt(i).setVisibility(View.VISIBLE);
                         }
-                        total=8;
+                        missingCards=0;
                     }
 
                     break;
