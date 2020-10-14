@@ -2,9 +2,7 @@ package auger.antoine.a97cartes;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -12,20 +10,21 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
 
-    ConstraintLayout tl_obj,tr_obj,bl_obj,br_obj;
+    ConstraintLayout tl_obj,tr_obj,bl_obj,br_obj,cards;
     LinearLayout ll_cards;
 
 
     TextView numofCards,bl_text,br_text,tl_text,tr_text;
-    Vector <Card> cards = new Vector<>();
+    Vector <Card> everyCards = new Vector<>();
     int numOfCards = 97;
+    int total = 8;
+
+    int firstCard,secondCard;
 
 
 
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ll_cards = findViewById(R.id.ll_card);
+        cards = findViewById(R.id.cards);
 
         numofCards = findViewById(R.id.title);
 
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int c =0;c<ly.getChildCount();c++){
                     if(ly.getChildAt(c) instanceof TextView){
                         ly.getChildAt(c).setOnTouchListener(ec);
-                        cards.add(new Card(ly.getChildAt(c)));
+                        everyCards.add(new Card(ly.getChildAt(c)));
                         numOfCards--;
                     }
 
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class Ecouteur implements View.OnTouchListener, View.OnDragListener{
-        Drawable normalShape = ContextCompat.getDrawable(MainActivity.this, R.drawable.background_card_mid);
 
         @Override
         public boolean onDrag(View conteneur, DragEvent dragEvent) {
@@ -109,26 +108,88 @@ public class MainActivity extends AppCompatActivity {
 
                     TextView oneCard = (TextView) card;
 
+
                     int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
-                    int objValue = Integer.parseInt(String.valueOf(bl_text.getText()));
+                    int objValue=0;
+
+                    //Trouver la valeur d'un carre objectif
+                    if (container == bl_obj){
+                        objValue = Integer.parseInt(String.valueOf(bl_text.getText()));
+                    }
+                    else if (container == br_obj){
+                        objValue = Integer.parseInt(String.valueOf(br_text.getText()));
+                    }
+                    else if (container == tl_obj){
+                        objValue = Integer.parseInt(String.valueOf(tl_text.getText()));
+                    }
+                    else if (container == tr_obj){
+                        objValue = Integer.parseInt(String.valueOf(tr_text.getText()));
+                    }
+
 
                     card.setVisibility(View.INVISIBLE);
-                   if((container == bl_obj||container==br_obj) && cardValue>objValue){
-                       bl_text.setText(String.valueOf(oneCard.getText()));
-                   }
-                   else if (container == tl_obj||container==tr_obj){
-                       tl_text.setText(String.valueOf(oneCard.getText()));
-                   }
-                   else if (container == tr_obj){
-                       tr_text.setText(String.valueOf(oneCard.getText()));
-                   }
-                   else{
-                       card.setVisibility(View.VISIBLE);
-                       container.removeView(card);
-                       parent.addView(card);
-                   }
 
 
+                    if((container == bl_obj||container==br_obj) && cardValue>objValue){
+                        if (container == bl_obj) {
+                            bl_text.setText(String.valueOf(oneCard.getText()));
+                        } else {
+                            br_text.setText(String.valueOf(oneCard.getText()));
+                        }
+                        total--;
+                        container.removeView(card);
+
+                    }
+                    else if ((container == tl_obj||container==tr_obj)  && cardValue<objValue){
+                        if (container == tl_obj) {
+                            tl_text.setText(String.valueOf(oneCard.getText()));
+                        } else {
+                            tr_text.setText(String.valueOf(oneCard.getText()));
+                        }
+                        total--;
+                    }
+                    else{
+                        card.setVisibility(View.VISIBLE);
+                        container.removeView(card);
+                        parent.addView(card);
+                    }
+
+                    if(total == 7){
+                        card.setVisibility(View.INVISIBLE);
+                        for(int i =0;i<everyCards.size();i++){
+                            if(everyCards.get(i).getValue() == cardValue){
+                                firstCard = i;
+                            }
+                        }
+                        cards.addView(card);
+                    }
+
+
+                    if(total == 6){
+                        cards.addView(card);
+
+                        for(int i =0;i<everyCards.size();i++){
+                            if(everyCards.get(i).getValue() == cardValue){
+                                secondCard = i;
+                            }
+
+                            if(firstCard == i){
+                                everyCards.get(firstCard).newValues();
+                            }
+                            if(secondCard == i){
+                                everyCards.get(secondCard).newValues();
+
+                            }
+                        }
+
+
+
+                        for(int i=0;i<cards.getChildCount();i++){
+                            cards.getChildAt(i).setVisibility(View.VISIBLE);
+                        }
+                        total=8;
+
+                    }
 
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:

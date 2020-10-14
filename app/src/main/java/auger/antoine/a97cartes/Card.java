@@ -37,8 +37,32 @@ public class Card {
 
     }
 
-    public String getValue(){
-        return String.valueOf(this.value);
+    public int getValue(){ return this.value; }
+
+    public void changeVisibility(){
+        this.current.setVisibility(View.VISIBLE);
+    }
+
+    public void newValues(){
+        this.value = rand.nextInt(100);
+
+        if (this.value <= 100){
+            this.color = R.drawable.background_card_high;
+            if(this.value<=75){
+                this.color = R.drawable.background_card_mid;
+                if(this.value <25){
+                    this.color = R.drawable.background_card_low;
+                }
+            }
+        }
+
+        //Changement du texte
+        TextView text = (TextView) this.current;
+        text.setText(String.valueOf(this.value));
+
+        //Changement de la couleur
+        Drawable drawable = this.current.getResources().getDrawable(this.color);
+        this.current.setBackground(drawable);
     }
 
 
