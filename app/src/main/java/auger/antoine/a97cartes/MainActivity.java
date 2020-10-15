@@ -3,6 +3,7 @@ package auger.antoine.a97cartes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.DragEvent;
@@ -11,10 +12,16 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Chronometer;
+import android.widget.Toast;
 
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
+
+    //TODO: Base de donnée
+    //TODO: Écran de fin de partie
+    //TODO: Afficher le meilleur score dans le menu principal
+    //TODO: Possibilité de finir la partie et de conserver le score?
 
 
     ConstraintLayout tl_obj,tr_obj,bl_obj,br_obj,cards;
@@ -103,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onChronometerTick(Chronometer chronometer) {
 
+            if (String.valueOf(chronometer.getText())=="01:00"){
+                Context context = getApplicationContext();
+                CharSequence text = "YEAH!!!";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+            }
         }
     }
 

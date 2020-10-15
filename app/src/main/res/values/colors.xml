@@ -6,7 +6,7 @@
     <color name="background">#BCB9A3</color>
     <color name="title_background">#2C3231</color>
     <color name="title_font">#BECDCB</color>
-    <color name="card_low">#FFEB3B</color>
+    <color name="card_low">#FFC107</color>
     <color name="card_med">#FF9800</color>
     <color name="card_high">#F44336</color>
 </resources>
