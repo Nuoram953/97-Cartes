@@ -193,11 +193,7 @@ public class MainActivity extends AppCompatActivity {
                         card.setVisibility(View.VISIBLE);
                         container.removeView(card);
                         parent.addView(card);
-
                     }
-
-                    System.out.println(chronometer.getText());
-
 
                     //Une fois qu'une carte est utilisée, on trouve sa position dans le vecteur des cartes et on la conserve en mémoire dans la variable "firstCard"
                     if(missingCards == 1 && cardValid){
@@ -248,8 +244,9 @@ public class MainActivity extends AppCompatActivity {
                     obj.add(String.valueOf(tl_text.getText()));
                     obj.add(String.valueOf(tr_text.getText()));
 
-                    boolean notEqual=false;
 
+                    //Vérification de fin de partie.
+                    boolean notEqual=false;
                     for(int i=0;i<everyCards.size()-1;i++){
                         if(i != firstCard || i !=secondCard){
                             if(everyCards.get(i).possiblePlayLeft(obj)){
@@ -257,19 +254,12 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             }
                         }
-
                     }
 
-                    if(notEqual){
-                        System.out.println("not equal = true");
-                    }else{
+                    if(!notEqual || numOfCards == 0){
 
                         endGame(conteneur);
                     }
-
-
-
-
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                 default:
@@ -286,12 +276,12 @@ public class MainActivity extends AppCompatActivity {
                 card.startDrag(null, shadowBuilder, card, 0);
                 card.setVisibility(View.INVISIBLE);
                 return true;
-
         }
 
     }
 
     public void endGame(View view){
+
         Intent intent = new Intent(this,endScreen.class);
         String score = String.valueOf(totalScore);
         intent.putExtra("test",score);

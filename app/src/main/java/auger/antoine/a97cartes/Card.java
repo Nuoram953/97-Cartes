@@ -54,7 +54,7 @@ public class Card {
 
 
         //2. le nombre de cartes restantes
-        //Entre 1-10 selon la dizaine du nombre de cartes restante. Ex. 86 = 2 points, 54 = 5 points etc.
+        //Entre 1-10 selon 10 - la dizaine du nombre de cartes restante. Ex. 86 = 2 points, 54 = 5 points etc.
         double test = Math.floor((double)numOfCard/10);
 
         for (double i=0.0;i<10.00;i++){
