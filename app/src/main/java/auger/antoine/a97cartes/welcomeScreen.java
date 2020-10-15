@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class welcomeScreen extends AppCompatActivity {
 
     Button start;
+    DataBaseHelper instance;
+    TextView bestScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +20,10 @@ public class welcomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_screen);
 
         start = findViewById(R.id.start);
+        bestScore = findViewById(R.id.bestScore);
+        instance = DataBaseHelper.getInstance(this);
+
+        bestScore.setText(DataBaseHelper.getInstance(this).returnLastElement());
 
         Ecouteur ec = new Ecouteur();
 

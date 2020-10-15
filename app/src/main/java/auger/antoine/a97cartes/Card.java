@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.Random;
+import java.util.Vector;
 
 public class Card {
 
@@ -60,7 +61,6 @@ public class Card {
             if(test == i) score += 10 - (int) i;
         }
 
-
         //3.la proximité
         //Entre 1 et 10
         if(Math.abs(objValue-this.value)<5){
@@ -77,12 +77,16 @@ public class Card {
         }
 
 
-
         return score;
 
 
 
     }
+
+    public boolean possiblePlayLeft(Vector<String> obj){
+        return this.value > Integer.parseInt(obj.get(0)) || this.value > Integer.parseInt(obj.get(1)) || this.value < Integer.parseInt(obj.get(2)) || this.value < Integer.parseInt(obj.get(3));
+    }
+
 
 
 }

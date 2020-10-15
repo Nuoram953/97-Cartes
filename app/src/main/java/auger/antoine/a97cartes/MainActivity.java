@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.DragEvent;
@@ -131,15 +132,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onDrag(View conteneur, DragEvent dragEvent) {
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
-
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    //v.setBackgroundDrawable(normalShape);
-
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
-
-
                     break;
                 case DragEvent.ACTION_DROP:
 
@@ -150,9 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     ConstraintLayout container = (ConstraintLayout) conteneur;
                     container.addView(card);
 
-
                     TextView oneCard = (TextView) card;
-
 
                     int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
                     int objValue=0;
@@ -171,9 +165,7 @@ public class MainActivity extends AppCompatActivity {
                         objValue = Integer.parseInt(String.valueOf(tr_text.getText()));
                     }
 
-
                     card.setVisibility(View.INVISIBLE);
-
 
                     //Vérification si l'objectif peut recevoir la carte selon sa valeur
                     if((container == bl_obj||container==br_obj) && cardValue>objValue){
@@ -249,10 +241,37 @@ public class MainActivity extends AppCompatActivity {
                         missingCards=0;
                     }
 
+
+                    //On vérifie si il est encore possible de jouer
+                    Vector <String> obj = new Vector<>();
+                    obj.add(String.valueOf(bl_text.getText()));
+                    obj.add(String.valueOf(br_text.getText()));
+                    obj.add(String.valueOf(tl_text.getText()));
+                    obj.add(String.valueOf(tr_text.getText()));
+
+                    boolean notEqual=false;
+
+                    for(int i=0;i<everyCards.size()-1;i++){
+                        if(i != firstCard || i !=secondCard){
+                            if(everyCards.get(i).possiblePlayLeft(obj)){
+                                notEqual = true;
+                                break;
+                            }
+                        }
+
+                    }
+
+                    if(notEqual){
+                        System.out.println("not equal = true");
+                    }else{
+                        endGame(conteneur);
+                    }
+
+
+
+
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-
-
                 default:
                     break;
             }
@@ -263,19 +282,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onTouch(View card, MotionEvent motionEvent) {
 
-
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(card);
                 card.startDrag(null, shadowBuilder, card, 0);
                 card.setVisibility(View.INVISIBLE);
                 return true;
 
-
-
-
-
-
         }
 
+    }
+
+    public void endGame(View view){
+        Intent intent = new Intent(this,endScreen.class);
+        startActivity(intent);
     }
 
 

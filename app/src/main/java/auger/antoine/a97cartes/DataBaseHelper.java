@@ -32,8 +32,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table score (id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, score INTEGER);");
-        addScore(db);
+        db.execSQL("create table highscore (id INTEGER PRIMARY KEY AUTOINCREMENT, score INTEGER);");
+
     }
 
     @Override
@@ -42,12 +42,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addScore(SQLiteDatabase db){
+    public void addScore(SQLiteDatabase db,int score){
         ContentValues cv= new ContentValues();
-        cv.put("nom","Antoine");
-        cv.put("score", 54);
+        cv.put("score", score);
 
-        db.insert("score",null,cv);
+        db.insert("highscore",null,cv);
     }
 
 
@@ -61,17 +60,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public Vector<String> returnLastElement(){
-        Cursor c = database.rawQuery("select * from score",null);
-        Vector<String> result = new Vector<>();
+    public String returnLastElement(){
+        Cursor c = database.rawQuery("select score from highscore order by score asc",null);
 
-        c.moveToLast();
-
-        for(int i = 0;i<c.getCount();i++){
-            result.add(c.getString(i));
+        if(c.moveToLast()){
+            return c.getString(0);
+        }else{
+            return "0";
         }
 
-        return result;
+
+
+
 
 
     }
