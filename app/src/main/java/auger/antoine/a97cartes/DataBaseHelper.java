@@ -42,11 +42,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addScore(SQLiteDatabase db,int score){
+    public void addScore(int score){
         ContentValues cv= new ContentValues();
         cv.put("score", score);
 
-        db.insert("highscore",null,cv);
+        database.insert("highscore",null,cv);
     }
 
 

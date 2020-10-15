@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     int firstCard,secondCard;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -264,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
                     if(notEqual){
                         System.out.println("not equal = true");
                     }else{
+
                         endGame(conteneur);
                     }
 
@@ -293,6 +293,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void endGame(View view){
         Intent intent = new Intent(this,endScreen.class);
+        String score = String.valueOf(totalScore);
+        intent.putExtra("test",score);
         startActivity(intent);
     }
 
