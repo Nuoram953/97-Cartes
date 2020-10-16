@@ -28,11 +28,13 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout tl_obj,tr_obj,bl_obj,br_obj,cards;
     LinearLayout ll_cards;
 
+    GameLogic gl;
+
 
     TextView numofCards,bl_text,br_text,tl_text,tr_text,score;
     Chronometer chronometer;
-    Vector <Card> everyCards = new Vector<>();
-    int numOfCards = 97;
+    //Vector <Card> everyCards = new Vector<>();
+
     int missingCards = 0;
     int totalScore=0;
     boolean cardValid = false;
@@ -51,12 +53,7 @@ public class MainActivity extends AppCompatActivity {
         chronometer = findViewById(R.id.chronometer);
         chronometer.start();
 
-
-
-
-
-
-
+        gl = new GameLogic();
 
         numofCards = findViewById(R.id.title);
         score = findViewById(R.id.score);
@@ -85,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 for (int c =0;c<ly.getChildCount();c++){
                     if(ly.getChildAt(c) instanceof TextView){
                         ly.getChildAt(c).setOnTouchListener(ec);
-                        everyCards.add(new Card(ly.getChildAt(c)));
-                        numOfCards--;
+                        gl.everyCards.add(new Card(ly.getChildAt(c)));
+                        gl.numOfCards--;
                     }
                 }
             }
@@ -99,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Affichage du nombre de cartes de base.
-        String text = String.valueOf(numOfCards)+" cartes restantes";
+        String text = String.valueOf(gl.numOfCards)+" cartes restantes";
         numofCards.setText(text);
 
     }
@@ -150,62 +147,19 @@ public class MainActivity extends AppCompatActivity {
                     int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
                     int objValue=0;
 
-                    //Trouver la valeur d'un carre objectif
-                    if (container == bl_obj){
-                        objValue = Integer.parseInt(String.valueOf(bl_text.getText()));
-                    }
-                    else if (container == br_obj){
-                        objValue = Integer.parseInt(String.valueOf(br_text.getText()));
-                    }
-                    else if (container == tl_obj){
-                        objValue = Integer.parseInt(String.valueOf(tl_text.getText()));
-                    }
-                    else if (container == tr_obj){
-                        objValue = Integer.parseInt(String.valueOf(tr_text.getText()));
-                    }
-
-                    card.setVisibility(View.INVISIBLE);
-
-                    //Vérification si l'objectif peut recevoir la carte selon sa valeur
-                    if((container == bl_obj||container==br_obj) && cardValue>objValue){
-                        if (container == bl_obj) {
-                            bl_text.setText(String.valueOf(oneCard.getText()));
-                        } else {
-                            br_text.setText(String.valueOf(oneCard.getText()));
-                        }
-                        missingCards++;
-                        cardValid = true;
-                        container.removeView(card);
-
-                    }
-                    else if ((container == tl_obj||container==tr_obj)  && cardValue<objValue){
-                        if (container == tl_obj) {
-                            tl_text.setText(String.valueOf(oneCard.getText()));
-                        } else {
-                            tr_text.setText(String.valueOf(oneCard.getText()));
-                        }
-                        missingCards++;
-                        cardValid = true;
-                        container.removeView(card);
-                    }
-                    else{
-                        cardValid = false;
-                        card.setVisibility(View.VISIBLE);
-                        container.removeView(card);
-                        parent.addView(card);
-                    }
+                    gl.cardValidation(container,cardValue,card);
 
                     //Une fois qu'une carte est utilisée, on trouve sa position dans le vecteur des cartes et on la conserve en mémoire dans la variable "firstCard"
                     if(missingCards == 1 && cardValid){
 
                         card.setVisibility(View.INVISIBLE);
-                        for(int i=0;i<everyCards.size();i++){
-                            if(everyCards.get(i).getValue() == cardValue){
+                        for(int i=0;i<gl.everyCards.size();i++){
+                            if(gl.everyCards.get(i).getValue() == cardValue){
                                 firstCard = i;
                             }
                         }
 
-                        totalScore += everyCards.get(firstCard).score(numOfCards,objValue,String.valueOf(chronometer.getText()));
+                        totalScore += gl.everyCards.get(firstCard).score(gl.numOfCards,objValue,String.valueOf(chronometer.getText()));
                         score.setText(String.valueOf(totalScore));
                         cards.addView(card);
                     }
@@ -214,21 +168,21 @@ public class MainActivity extends AppCompatActivity {
                     if(missingCards == 2){
                         cards.addView(card);
 
-                        for(int i =0;i<everyCards.size()-1;i++){
-                            if(everyCards.get(i).getValue() == cardValue){
+                        for(int i =0;i<gl.everyCards.size()-1;i++){
+                            if(gl.everyCards.get(i).getValue() == cardValue){
                                 secondCard = i;
                             }
                         }
 
-                        totalScore += everyCards.get(secondCard).score(numOfCards,objValue,String.valueOf(chronometer.getText()));
+                        totalScore += gl.everyCards.get(secondCard).score(gl.numOfCards,objValue,String.valueOf(chronometer.getText()));
                         score.setText(String.valueOf(totalScore));
 
                         //On atttribue des nouvelles valeurs au 2 cartes qui ont été utilisés
-                        everyCards.get(firstCard).newValues();
-                        everyCards.get(secondCard).newValues();
+                       gl.everyCards.get(firstCard).newValues();
+                       gl.everyCards.get(secondCard).newValues();
 
-                        numOfCards-=2;
-                        numofCards.setText(String.valueOf(numOfCards+ " cartes restantes"));
+                        gl.numOfCards-=2;
+                        numofCards.setText(String.valueOf(gl.numOfCards+ " cartes restantes"));
 
                         for(int i=0;i<cards.getChildCount();i++){
                             cards.getChildAt(i).setVisibility(View.VISIBLE);
@@ -245,18 +199,19 @@ public class MainActivity extends AppCompatActivity {
                     obj.add(String.valueOf(tr_text.getText()));
 
 
+
                     //Vérification de fin de partie.
                     boolean notEqual=false;
-                    for(int i=0;i<everyCards.size()-1;i++){
+                    for(int i=0;i<gl.everyCards.size()-1;i++){
                         if(i != firstCard || i !=secondCard){
-                            if(everyCards.get(i).possiblePlayLeft(obj)){
+                            if(gl.everyCards.get(i).possiblePlayLeft(obj)){
                                 notEqual = true;
                                 break;
                             }
                         }
                     }
 
-                    if(!notEqual || numOfCards == 0){
+                    if(!notEqual || gl.numOfCards == 0){
 
                         endGame(conteneur);
                     }
