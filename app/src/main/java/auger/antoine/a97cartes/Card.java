@@ -22,7 +22,9 @@ public class Card {
     public int getValue(){ return this.value; }
 
     public void changeVisibility(){
+
         this.current.setVisibility(View.VISIBLE);
+
     }
 
     public void newValues(){

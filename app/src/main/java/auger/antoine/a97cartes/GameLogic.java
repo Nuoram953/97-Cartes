@@ -62,24 +62,27 @@ public class GameLogic {
 
         this.objValue = temp;
 
-        //card.setVisibility(View.INVISIBLE);
 
 
         int objValue=Integer.parseInt(String.valueOf(temp.getText()));
 
         if(cardValue>objValue && isBottom(container)&& this.obj.contains(container.getId())){
             System.out.println("if 1");
+
             temp.setText(String.valueOf(cardValue));
             this.missingCard++;
             this.cardValid = true;
             container.removeView(card);
+
         }
         else if(objValue>cardValue && !isBottom(container) && this.obj.contains(container.getId())){
+
             System.out.println("if 2");
             temp.setText(String.valueOf(cardValue));
             this.missingCard++;
             this.cardValid = true;
             container.removeView(card);
+
         }
         else{
 
@@ -90,9 +93,8 @@ public class GameLogic {
                 card.setVisibility(View.VISIBLE);
                 container.removeView(card);
                 this.cards.addView(card);
+
             }
-
-
         }
 
 
@@ -108,13 +110,14 @@ public class GameLogic {
 
         if(this.missingCard==1 && this.cardValid){
 
-            //card.setVisibility(View.INVISIBLE);
+
             for(int i=0;i<this.everyCards.size();i++){
                 if(this.everyCards.get(i).getValue() == cardValue){
                     this.usedCard.add(i);
                 }
             }
             this.cards.addView(card);
+
             try{
                 updateScore(this.usedCard.get(0));
             }catch (ArrayIndexOutOfBoundsException e){
@@ -126,7 +129,7 @@ public class GameLogic {
 
         if(this.missingCard == 2){
 
-            card.setVisibility(View.INVISIBLE);
+
             for(int i=0;i<this.everyCards.size();i++){
                 if(this.everyCards.get(i).getValue() == cardValue){
                     this.usedCard.add(i);

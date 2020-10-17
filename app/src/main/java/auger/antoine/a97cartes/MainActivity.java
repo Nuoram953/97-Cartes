@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onChronometerTick(Chronometer chronometer) {
 
-            if (String.valueOf(chronometer.getText())=="01:00"){
+            if (String.valueOf(chronometer.getText()).equals("01:00")){
                 Context context = getApplicationContext();
-                CharSequence text = "YEAH!!!";
+                CharSequence text = "Vous pouvez le faire!";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -128,6 +128,20 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onDrag(View conteneur, DragEvent dragEvent) {
+
+
+            View card = (View) dragEvent.getLocalState();
+            ConstraintLayout parent = (ConstraintLayout) card.getParent();
+            parent.removeView(card);
+
+            ConstraintLayout container = (ConstraintLayout) conteneur;
+            container.addView(card);
+
+
+            TextView oneCard = (TextView) card;
+            int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
+
+
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     break;
@@ -137,23 +151,21 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case DragEvent.ACTION_DROP:
 
-                    View card = (View) dragEvent.getLocalState();
-                    ConstraintLayout parent = (ConstraintLayout) card.getParent();
-                    parent.removeView(card);
-
-                    ConstraintLayout container = (ConstraintLayout) conteneur;
-                    container.addView(card);
-
-                    TextView oneCard = (TextView) card;
-
-                    int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
 
 
-
-
+                    System.out.println(container);
 
 
                     gl.cardValidation(container,cardValue,card);
+
+
+
+
+                        //cards.addView(card);
+                        //container.removeView(card);
+
+
+
 
                     gl.missingCard(card);
 
@@ -185,6 +197,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
+
+                    if(!gl.cardValid){
+                        container.removeView(card);
+                        card.setVisibility(View.VISIBLE);
+                        cards.addView(card);
+                    }
+
+
+
+
+
+
+
+
+
+
+                    break;
                 default:
                     break;
             }
