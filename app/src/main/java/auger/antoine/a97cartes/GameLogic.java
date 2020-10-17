@@ -2,6 +2,7 @@ package auger.antoine.a97cartes;
 
 import android.nfc.Tag;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import androidx.constraintlayout.widget.Guideline;
 import org.w3c.dom.Text;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Vector;
 
 public class GameLogic {
@@ -68,7 +70,6 @@ public class GameLogic {
 
         if(cardValue>objValue && isBottom(container)&& this.obj.contains(container.getId())){
             System.out.println("if 1");
-
             temp.setText(String.valueOf(cardValue));
             this.missingCard++;
             this.cardValid = true;
@@ -86,16 +87,15 @@ public class GameLogic {
         }
         else{
 
-            if(container.getId() != R.id.cards_obj){
                 System.out.println("if 3");
-
                 this.cardValid=false;
                 card.setVisibility(View.VISIBLE);
                 container.removeView(card);
                 this.cards.addView(card);
 
-            }
+
         }
+
 
 
 
@@ -107,9 +107,7 @@ public class GameLogic {
         TextView oneCard = (TextView) card;
         int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
 
-
         if(this.missingCard==1 && this.cardValid){
-
 
             for(int i=0;i<this.everyCards.size();i++){
                 if(this.everyCards.get(i).getValue() == cardValue){
@@ -123,12 +121,9 @@ public class GameLogic {
             }catch (ArrayIndexOutOfBoundsException e){
                 System.out.println("Array out of bound");
             }
-
-
         }
 
         if(this.missingCard == 2){
-
 
             for(int i=0;i<this.everyCards.size();i++){
                 if(this.everyCards.get(i).getValue() == cardValue){
@@ -165,6 +160,47 @@ public class GameLogic {
         else{
             return false;
         }
+    }
+
+    public boolean isCardOutside(ConstraintLayout container, ConstraintLayout card_obj){
+
+
+
+        System.out.println(container.getParent());
+        System.out.println(container);
+
+        System.out.println(card_obj);
+
+        return this.cardValid;
+
+
+
+
+
+
+        //if(container.getParent()){
+        //    return true;
+        //}
+
+
+
+
+        //Vector<Integer> test = new Vector<>();
+        //test.add(R.id.cards);
+        //test.add(R.id.tr_obj);
+        //test.add( R.id.tl_obj);
+        //test.add(R.id.br_obj);
+        //test.add(R.id.bl_obj);
+
+        //if(test.contains(container.getId()) && !this.cardValid){
+        //    return true;
+        //}else{
+        //    return false;
+        //}
+
+
+
+
     }
 
 

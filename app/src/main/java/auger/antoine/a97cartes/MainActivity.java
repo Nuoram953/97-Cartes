@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
     //TODO: Possibilité de finir la partie et de conserver le score?
 
 
-    ConstraintLayout tl_obj,tr_obj,bl_obj,br_obj,cards;
+    ConstraintLayout tl_obj,tr_obj,bl_obj,br_obj,cards, card_obj;
     LinearLayout ll_cards;
+
 
     GameLogic gl;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         ll_cards = findViewById(R.id.ll_card);
         cards = findViewById(R.id.cards);
+        card_obj = findViewById(R.id.cards_obj);
 
         chronometer = findViewById(R.id.chronometer);
 
@@ -90,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
+
 
         tl_obj.setOnDragListener(ec);
         tr_obj.setOnDragListener(ec);
@@ -144,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
+                    gl.cardValid = false;
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     break;
@@ -153,19 +158,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                    System.out.println(container);
 
 
                     gl.cardValidation(container,cardValue,card);
-
-
-
-
-                        //cards.addView(card);
-                        //container.removeView(card);
-
-
-
 
                     gl.missingCard(card);
 
@@ -199,18 +194,13 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_ENDED:
 
                     if(!gl.cardValid){
+                        System.out.println("card is not valid");
                         container.removeView(card);
                         card.setVisibility(View.VISIBLE);
                         cards.addView(card);
                     }
 
-
-
-
-
-
-
-
+                    //gl.cardValid = false;
 
 
                     break;
