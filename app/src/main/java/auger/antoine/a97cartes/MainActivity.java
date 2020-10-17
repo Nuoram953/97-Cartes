@@ -51,12 +51,14 @@ public class MainActivity extends AppCompatActivity {
         cards = findViewById(R.id.cards);
 
         chronometer = findViewById(R.id.chronometer);
-        chronometer.start();
 
-        gl = new GameLogic();
 
         numofCards = findViewById(R.id.title);
         score = findViewById(R.id.score);
+
+        gl = new GameLogic(cards,score,numofCards,chronometer);
+
+
 
         tl_obj = findViewById(R.id.tl_obj);
         tr_obj = findViewById(R.id.tr_obj);
@@ -145,50 +147,16 @@ public class MainActivity extends AppCompatActivity {
                     TextView oneCard = (TextView) card;
 
                     int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
-                    int objValue=0;
+
+
+
+
+
 
                     gl.cardValidation(container,cardValue,card);
 
-                    //Une fois qu'une carte est utilisée, on trouve sa position dans le vecteur des cartes et on la conserve en mémoire dans la variable "firstCard"
-                    if(missingCards == 1 && cardValid){
+                    gl.missingCard(card);
 
-                        card.setVisibility(View.INVISIBLE);
-                        for(int i=0;i<gl.everyCards.size();i++){
-                            if(gl.everyCards.get(i).getValue() == cardValue){
-                                firstCard = i;
-                            }
-                        }
-
-                        totalScore += gl.everyCards.get(firstCard).score(gl.numOfCards,objValue,String.valueOf(chronometer.getText()));
-                        score.setText(String.valueOf(totalScore));
-                        cards.addView(card);
-                    }
-
-                    //Une fois qu'une 2e carte est utilisée, on trouve sa position dans le vecteur des cartes et on la conserve en mémoire dans la variable "secondCard"
-                    if(missingCards == 2){
-                        cards.addView(card);
-
-                        for(int i =0;i<gl.everyCards.size()-1;i++){
-                            if(gl.everyCards.get(i).getValue() == cardValue){
-                                secondCard = i;
-                            }
-                        }
-
-                        totalScore += gl.everyCards.get(secondCard).score(gl.numOfCards,objValue,String.valueOf(chronometer.getText()));
-                        score.setText(String.valueOf(totalScore));
-
-                        //On atttribue des nouvelles valeurs au 2 cartes qui ont été utilisés
-                       gl.everyCards.get(firstCard).newValues();
-                       gl.everyCards.get(secondCard).newValues();
-
-                        gl.numOfCards-=2;
-                        numofCards.setText(String.valueOf(gl.numOfCards+ " cartes restantes"));
-
-                        for(int i=0;i<cards.getChildCount();i++){
-                            cards.getChildAt(i).setVisibility(View.VISIBLE);
-                        }
-                        missingCards=0;
-                    }
 
 
                     //On vérifie si il est encore possible de jouer
