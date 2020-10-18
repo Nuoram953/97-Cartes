@@ -4,16 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class endScreen extends AppCompatActivity {
 
 
     DataBaseHelper instance;
+    TextView finalscore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_screen);
+
+
+        finalscore = findViewById(R.id.c);
+
 
 
         instance = DataBaseHelper.getInstance(this);
@@ -22,7 +28,10 @@ public class endScreen extends AppCompatActivity {
 
         String test = intent.getStringExtra("test");
 
+        finalscore.setText(String.valueOf(test));
+
         DataBaseHelper.getInstance(this).addScore(Integer.parseInt(test));
+
 
 
 

@@ -93,12 +93,7 @@ public class GameLogic {
                 container.removeView(card);
                 this.cards.addView(card);
 
-
         }
-
-
-
-
 
     }
 
@@ -160,47 +155,6 @@ public class GameLogic {
         else{
             return false;
         }
-    }
-
-    public boolean isCardOutside(ConstraintLayout container, ConstraintLayout card_obj){
-
-
-
-        System.out.println(container.getParent());
-        System.out.println(container);
-
-        System.out.println(card_obj);
-
-        return this.cardValid;
-
-
-
-
-
-
-        //if(container.getParent()){
-        //    return true;
-        //}
-
-
-
-
-        //Vector<Integer> test = new Vector<>();
-        //test.add(R.id.cards);
-        //test.add(R.id.tr_obj);
-        //test.add( R.id.tl_obj);
-        //test.add(R.id.br_obj);
-        //test.add(R.id.bl_obj);
-
-        //if(test.contains(container.getId()) && !this.cardValid){
-        //    return true;
-        //}else{
-        //    return false;
-        //}
-
-
-
-
     }
 
 
