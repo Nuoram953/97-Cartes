@@ -28,7 +28,7 @@ public class endScreen extends AppCompatActivity {
 
         String test = intent.getStringExtra("test");
 
-        finalscore.setText(String.valueOf(test));
+        finalscore.setText(test);
 
         DataBaseHelper.getInstance(this).addScore(Integer.parseInt(test));
 

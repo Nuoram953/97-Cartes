@@ -28,19 +28,10 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout tl_obj,tr_obj,bl_obj,br_obj,cards, card_obj;
     LinearLayout ll_cards;
 
-
     GameLogic gl;
-
 
     TextView numofCards,bl_text,br_text,tl_text,tr_text,score;
     Chronometer chronometer;
-    //Vector <Card> everyCards = new Vector<>();
-
-    int missingCards = 0;
-    int totalScore=0;
-    boolean cardValid = false;
-
-    int firstCard,secondCard;
 
 
     @Override
@@ -104,9 +95,7 @@ public class MainActivity extends AppCompatActivity {
         //Affichage du nombre de cartes de base.
         String text = String.valueOf(gl.numOfCards)+" cartes restantes";
         numofCards.setText(text);
-
     }
-
 
     private class EcouteurTimer implements Chronometer.OnChronometerTickListener{
 
@@ -124,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
 
     private class Ecouteur implements View.OnTouchListener, View.OnDragListener{
@@ -156,15 +143,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case DragEvent.ACTION_DROP:
 
-
-
-
-
                     gl.cardValidation(container,cardValue,card);
 
                     gl.missingCard(card);
-
-
 
                     //On vérifie si il est encore possible de jouer
                     Vector <String> obj = new Vector<>();
@@ -173,36 +154,20 @@ public class MainActivity extends AppCompatActivity {
                     obj.add(String.valueOf(tl_text.getText()));
                     obj.add(String.valueOf(tr_text.getText()));
 
-
-
-                    //Vérification de fin de partie.
-                    boolean notEqual=false;
-                    for(int i=0;i<gl.everyCards.size()-1;i++){
-                        if(i != firstCard || i !=secondCard){
-                            if(gl.everyCards.get(i).possiblePlayLeft(obj)){
-                                notEqual = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if(!notEqual || gl.numOfCards == 0){
-
+                    if(!gl.possiblePlayLeft(obj)){
                         endGame(conteneur);
                     }
-                    break;
+
                 case DragEvent.ACTION_DRAG_ENDED:
 
                     if(!gl.cardValid){
                         System.out.println("card is not valid");
                         container.removeView(card);
                         card.setVisibility(View.VISIBLE);
+                        System.out.println(card.getParent());
+                        cards.removeView(card);
                         cards.addView(card);
                     }
-
-                    //gl.cardValid = false;
-
-
                     break;
                 default:
                     break;
@@ -223,9 +188,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void endGame(View view){
-
         Intent intent = new Intent(this,endScreen.class);
-        String score = String.valueOf(totalScore);
+        String score = String.valueOf(gl.totalScore);
         intent.putExtra("test",score);
         startActivity(intent);
     }

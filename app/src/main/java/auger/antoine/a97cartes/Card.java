@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
@@ -53,8 +54,13 @@ public class Card {
         int score=0;
 
         //1.temps
+        String[] temp = chronometer.split(":");
 
+        double scoreTempSec = Math.ceil(60 - Integer.parseInt(temp[1]))*0.1;
+        double scoreTempMin = Math.ceil(60 - Integer.parseInt(temp[0]))*0.1;
 
+        score += (int)scoreTempMin+scoreTempSec;
+        
         //2. le nombre de cartes restantes
         //Entre 1-10 selon 10 - la dizaine du nombre de cartes restante. Ex. 86 = 2 points, 54 = 5 points etc.
         double test = Math.floor((double)numOfCard/10);

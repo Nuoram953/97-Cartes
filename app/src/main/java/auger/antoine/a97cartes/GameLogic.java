@@ -20,6 +20,7 @@ public class GameLogic {
     Vector<Card> everyCards;
     Vector<Integer> obj;
     Vector<Integer> usedCard;
+    Vector<Arrays> timestamp;
     int numOfCards,totalScore,missingCard;
     boolean cardValid;
     ConstraintLayout cards;
@@ -31,7 +32,8 @@ public class GameLogic {
     public GameLogic(ConstraintLayout cards, TextView score, TextView cardLeft, Chronometer chronometer){
        this.everyCards = new Vector<>();
        this.usedCard = new Vector<>();
-        this.obj = new Vector<>();
+       this.obj = new Vector<>();
+       this.timestamp = new Vector<>();
        this.numOfCards = 97;
        this.totalScore = 0;
        this.missingCard = 0;
@@ -160,16 +162,34 @@ public class GameLogic {
 
     public void updateScore(int index){
 
-
-
         totalScore += this.everyCards.get(index).score(this.numOfCards,Integer.parseInt(String.valueOf(this.objValue.getText())),String.valueOf(this.chronometer.getText()));
         this.score.setText(String.valueOf(totalScore));
     }
 
 
-    public void endGame(){
+    public boolean possiblePlayLeft(Vector<String>obj){
+        //Vérification de fin de partie.
 
+        boolean notEqual=false;
+        for(int i=0;i<this.everyCards.size()-1;i++){
+            if(!this.usedCard.contains(i)){
+                if(this.everyCards.get(i).possiblePlayLeft(obj)){
+                    notEqual = true;
+                    break;
+                }
+            }
+        }
+
+        if(!notEqual || this.numOfCards == 0){
+
+            return false;
+        }
+
+        return true;
     }
+
+
+
 
 
 }
