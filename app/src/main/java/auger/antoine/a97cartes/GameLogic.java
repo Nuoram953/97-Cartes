@@ -54,9 +54,7 @@ public class GameLogic {
        this.obj.add(R.id.tr_obj);
 
 
-
     }
-
 
 
     public void cardValidation(ConstraintLayout container, int cardValue, View card){
@@ -75,7 +73,7 @@ public class GameLogic {
             temp.setText(String.valueOf(cardValue));
             this.missingCard++;
             this.cardValid = true;
-            container.removeView(card);
+            card.setVisibility(View.INVISIBLE);
 
         }
         else if(objValue>cardValue && !isBottom(container) && this.obj.contains(container.getId())){
@@ -84,7 +82,7 @@ public class GameLogic {
             temp.setText(String.valueOf(cardValue));
             this.missingCard++;
             this.cardValid = true;
-            container.removeView(card);
+            card.setVisibility(View.INVISIBLE);
 
         }
         else{
@@ -92,8 +90,8 @@ public class GameLogic {
                 System.out.println("if 3");
                 this.cardValid=false;
                 card.setVisibility(View.VISIBLE);
-                container.removeView(card);
-                this.cards.addView(card);
+                //container.removeView(card);
+                //this.cards.addView(card);
 
         }
 
@@ -111,7 +109,7 @@ public class GameLogic {
                     this.usedCard.add(i);
                 }
             }
-            this.cards.addView(card);
+            //this.cards.addView(card);
 
             try{
                 updateScore(this.usedCard.get(0));
@@ -128,7 +126,7 @@ public class GameLogic {
                 }
             }
 
-            this.cards.addView(card);
+            //this.cards.addView(card);
             updateScore(this.usedCard.get(1));
 
             for (Integer missingcard:this.usedCard) {
@@ -137,6 +135,8 @@ public class GameLogic {
 
             this.numOfCards-=2;
             this.cardLeft.setText(String.valueOf(this.numOfCards+ " cartes restantes"));
+
+
 
             this.usedCard.removeAllElements();
             this.missingCard = 0;
@@ -189,7 +189,31 @@ public class GameLogic {
     }
 
 
+    public boolean cardValidationForObj(ConstraintLayout container, int cardValue, View card){
 
+
+        TextView temp= (TextView) container.getChildAt(0);
+
+        this.objValue = temp;
+
+
+
+        int objValue=Integer.parseInt(String.valueOf(temp.getText()));
+
+        if(cardValue>objValue && isBottom(container)&& this.obj.contains(container.getId())){
+            return true;
+        }
+        else if(objValue>cardValue && !isBottom(container) && this.obj.contains(container.getId())){
+            return true;
+        }
+        else{
+
+            return false;
+
+
+        }
+
+    }
 
 
 }

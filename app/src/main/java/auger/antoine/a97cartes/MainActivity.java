@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.DragEvent;
@@ -120,26 +121,41 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onDrag(View conteneur, DragEvent dragEvent) {
 
+            Drawable enterShape = getResources().getDrawable(R.drawable.background_objectif);
+
+            Drawable exitShape = getResources().getDrawable(R.drawable.background_objectif_out);
+
+            Drawable wrongShape = getResources().getDrawable(R.drawable.background_obj_wrong);
 
             View card = (View) dragEvent.getLocalState();
             ConstraintLayout parent = (ConstraintLayout) card.getParent();
-            parent.removeView(card);
+            //parent.removeView(card);
 
             ConstraintLayout container = (ConstraintLayout) conteneur;
-            container.addView(card);
-
+            //container.addView(card);
 
             TextView oneCard = (TextView) card;
             int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
-
 
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     gl.cardValid = false;
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
+                    if(container.getId() != R.id.cards){
+                        container.setBackground(exitShape);
+                        if(!gl.cardValidationForObj(container,cardValue,card)){
+                            container.setBackground(wrongShape);
+                        }
+                    }
+
+
+
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
+                    if(container.getId() != R.id.cards){
+                        container.setBackground(enterShape);
+                    }
                     break;
                 case DragEvent.ACTION_DROP:
 
@@ -159,6 +175,10 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 case DragEvent.ACTION_DRAG_ENDED:
+                    if(container.getId() != R.id.cards){
+                        container.setBackground(enterShape);
+                    }
+
 
                     if(!gl.cardValid){
                         System.out.println("card is not valid");
