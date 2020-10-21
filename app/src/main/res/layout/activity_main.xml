@@ -266,29 +266,15 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/card7"
-                android:layout_width="50dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="36dp"
-                android:layout_weight="0.3"
-                android:background="@drawable/background_card_mid"
-                android:gravity="center"
-                android:padding="10dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="25sp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/card2"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="36dp"
                 android:layout_weight="0.3"
                 android:background="@drawable/background_card_high"
                 android:gravity="center"
+                android:maxHeight="65dp"
+                android:minWidth="50dp"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -299,29 +285,33 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/card6"
-                android:layout_width="50dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="36dp"
-                android:layout_weight="0.3"
-                android:background="@drawable/background_card_low"
-                android:gravity="center"
-                android:padding="10dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="25sp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/card1"
-                android:layout_width="50dp"
+                android:id="@+id/card7"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="36dp"
                 android:layout_weight="0.3"
                 android:background="@drawable/background_card_mid"
                 android:gravity="center"
+                android:maxHeight="65dp"
+                android:minWidth="50dp"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/card1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="36dp"
+                android:layout_weight="0.3"
+                android:background="@drawable/background_card_mid"
+                android:gravity="center"
+                android:maxHeight="65dp"
+                android:minWidth="50dp"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -332,12 +322,14 @@
 
             <TextView
                 android:id="@+id/card8"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginBottom="52dp"
                 android:layout_weight="0.3"
                 android:background="@drawable/background_card_mid"
                 android:gravity="center"
+                android:maxHeight="65dp"
+                android:minWidth="50dp"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -349,12 +341,14 @@
 
             <TextView
                 android:id="@+id/card4"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginBottom="52dp"
                 android:layout_weight="0.3"
                 android:background="@drawable/background_card_high"
                 android:gravity="center"
+                android:maxHeight="65dp"
+                android:minWidth="50dp"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -365,13 +359,15 @@
 
             <TextView
                 android:id="@+id/card5"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginBottom="52dp"
                 android:layout_weight="0.3"
                 android:background="@drawable/background_card_high"
                 android:backgroundTintMode="screen"
                 android:gravity="center"
+                android:maxHeight="65dp"
+                android:minWidth="50dp"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -382,12 +378,14 @@
 
             <TextView
                 android:id="@+id/card3"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginBottom="52dp"
                 android:layout_weight="0.3"
                 android:background="@drawable/background_card_low"
                 android:gravity="center"
+                android:maxHeight="65dp"
+                android:minWidth="50dp"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -395,6 +393,24 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+            <TextView
+                android:id="@+id/card6"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="36dp"
+                android:layout_weight="0.3"
+                android:background="@drawable/background_card_low"
+                android:gravity="center"
+                android:maxHeight="65dp"
+                android:minWidth="50dp"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"

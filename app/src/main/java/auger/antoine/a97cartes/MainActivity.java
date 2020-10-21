@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        gl.getValues();
+
 
 
         tl_obj.setOnDragListener(ec);
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_STARTED:
                     gl.cardValid = false;
                     break;
+
                 case DragEvent.ACTION_DRAG_ENTERED:
                     if(container.getId() != R.id.cards){
                         container.setBackground(exitShape);
@@ -148,19 +151,17 @@ public class MainActivity extends AppCompatActivity {
                             container.setBackground(wrongShape);
                         }
                     }
-
-
-
                     break;
+
                 case DragEvent.ACTION_DRAG_EXITED:
                     if(container.getId() != R.id.cards){
                         container.setBackground(enterShape);
                     }
                     break;
+
                 case DragEvent.ACTION_DROP:
 
                     gl.cardValidation(container,cardValue,card);
-
                     gl.missingCard(card);
 
                     //On vérifie si il est encore possible de jouer
@@ -178,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                     if(container.getId() != R.id.cards){
                         container.setBackground(enterShape);
                     }
-
 
                     if(!gl.cardValid){
                         System.out.println("card is not valid");

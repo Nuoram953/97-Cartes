@@ -30,6 +30,8 @@ public class Card {
     public void newValues(){
         this.value = rand.nextInt(100);
 
+
+
         if (this.value <= 100){
             this.color = R.drawable.background_card_high;
             if(this.value<=75){

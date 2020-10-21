@@ -20,6 +20,8 @@ public class GameLogic {
     Vector<Card> everyCards;
     Vector<Integer> obj;
     Vector<Integer> usedCard;
+    Vector<Integer> valuesCard;
+
     Vector<Arrays> timestamp;
     int numOfCards,totalScore,missingCard;
     boolean cardValid;
@@ -32,6 +34,7 @@ public class GameLogic {
     public GameLogic(ConstraintLayout cards, TextView score, TextView cardLeft, Chronometer chronometer){
        this.everyCards = new Vector<>();
        this.usedCard = new Vector<>();
+       this.valuesCard = new Vector<>();
        this.obj = new Vector<>();
        this.timestamp = new Vector<>();
        this.numOfCards = 97;
@@ -54,6 +57,29 @@ public class GameLogic {
        this.obj.add(R.id.tr_obj);
 
 
+    }
+
+
+    public void updateValues(){
+        this.valuesCard.removeAllElements();
+
+        for (Card card:this.everyCards
+             ) {
+            this.valuesCard.add(card.getValue());
+
+        }
+    }
+
+    public void getValues(){
+       for (int i =0;i<this.everyCards.size()-1;i++){
+           int temp = this.everyCards.get(i).getValue();
+
+           for (int j = 0;j<this.everyCards.size()-1;j++){
+               if (temp == this.everyCards.get(j).getValue()){
+                   this.everyCards.get(j).newValues();
+               }
+           }
+       }
     }
 
 
@@ -99,6 +125,8 @@ public class GameLogic {
 
     public void missingCard(View card){
 
+        updateValues();
+
         TextView oneCard = (TextView) card;
         int cardValue = Integer.parseInt(String.valueOf(oneCard.getText()));
 
@@ -131,6 +159,9 @@ public class GameLogic {
 
             for (Integer missingcard:this.usedCard) {
                 this.everyCards.get(missingcard).newValues();
+                if (this.valuesCard.contains(this.everyCards.get(missingcard).getValue())){
+                    this.everyCards.get(missingcard).newValues();
+                }
             }
 
             this.numOfCards-=2;
