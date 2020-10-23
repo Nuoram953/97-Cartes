@@ -16,7 +16,6 @@ public class Card {
 
     public Card(View current){
         this.current = current;
-        newValues();
     }
 
     public int getValue(){ return this.value; }
@@ -27,10 +26,9 @@ public class Card {
 
     }
 
+    //On attribue une valeur au hasard et selon cette valeur, la couleur du background va changer
     public void newValues(){
         this.value = rand.nextInt(100);
-
-
 
         if (this.value <= 100){
             this.color = R.drawable.background_card_high;
@@ -54,7 +52,8 @@ public class Card {
     public int score(int numOfCard, int objValue, String chronometer){
         int score=0;
 
-        //1.temps
+        //1. Score selon le temps
+        //Plus que le temps avance, moins de points le joueur va obtenir en jouant des cartes.
         String[] temp = chronometer.split(":");
 
         double scoreTempSec = Math.ceil(60 - Integer.parseInt(temp[1]))*0.1;
@@ -71,7 +70,7 @@ public class Card {
         }
 
         //3.la proximité
-        //Entre 1 et 10
+        //Entre 1 et 10 selon les valeurs de la carte et de l'objectif
         if(Math.abs(objValue-this.value)<5){
             score +=10;
         }
@@ -92,6 +91,7 @@ public class Card {
 
     }
 
+    //Vérifie si il est possible joueur un coup
     public boolean possiblePlayLeft(Vector<String> obj){
         return this.value > Integer.parseInt(obj.get(0)) || this.value > Integer.parseInt(obj.get(1)) || this.value < Integer.parseInt(obj.get(2)) || this.value < Integer.parseInt(obj.get(3));
     }

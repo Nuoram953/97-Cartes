@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     if(ly.getChildAt(c) instanceof TextView){
                         ly.getChildAt(c).setOnTouchListener(ec);
                         gl.everyCards.add(new Card(ly.getChildAt(c)));
-                        gl.numOfCards--;
+
                     }
                 }
             }
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_ENTERED:
                     if(container.getId() != R.id.cards){
                         container.setBackground(exitShape);
-                        if(!gl.cardValidationForObj(container,cardValue,card)){
+                        if(gl.cardValidationForObj(container,cardValue,card).equals("noValid") ) {
                             container.setBackground(wrongShape);
                         }
                     }

@@ -1,28 +1,20 @@
 package auger.antoine.a97cartes;
 
-import android.nfc.Tag;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.Chronometer;
 import android.widget.TextView;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Guideline;
-
-import org.w3c.dom.Text;
-
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Vector;
 
 public class GameLogic {
 
-    Vector<Card> everyCards;
+    Vector<Card> everyCards; // Contient les 8 objects cartes
     Vector<Integer> obj;
     Vector<Integer> usedCard;
     Vector<Integer> valuesCard;
-
     Vector<Arrays> timestamp;
+
     int numOfCards,totalScore,missingCard;
     boolean cardValid;
     ConstraintLayout cards;
@@ -50,76 +42,53 @@ public class GameLogic {
 
        this.objValue = null;
 
-
        this.obj.add(R.id.bl_obj);
        this.obj.add(R.id.br_obj);
        this.obj.add(R.id.tl_obj);
        this.obj.add(R.id.tr_obj);
 
-
     }
 
 
-    public void updateValues(){
-        this.valuesCard.removeAllElements();
 
-        for (Card card:this.everyCards
-             ) {
+
+
+    //Dans le cas ou nous avons des doublons, la carte en question est randomize à nouveau.
+    public void getValues(){
+        for (Card card:this.everyCards) {
+            card.newValues();
+            while(this.valuesCard.contains(card.getValue())){
+                card.newValues();
+            }
             this.valuesCard.add(card.getValue());
 
         }
     }
 
-    public void getValues(){
-       for (int i =0;i<this.everyCards.size()-1;i++){
-           int temp = this.everyCards.get(i).getValue();
 
-           for (int j = 0;j<this.everyCards.size()-1;j++){
-               if (temp == this.everyCards.get(j).getValue()){
-                   this.everyCards.get(j).newValues();
-               }
-           }
-       }
-    }
-
-
+    //Vérifie si la carte est valide et que nous pouvons la placer sur le container choisi.
     public void cardValidation(ConstraintLayout container, int cardValue, View card){
-
 
         TextView temp= (TextView) container.getChildAt(0);
 
         this.objValue = temp;
 
+        String operation = cardValidationForObj(container,cardValue,card);
 
-
-        int objValue=Integer.parseInt(String.valueOf(temp.getText()));
-
-        if(cardValue>objValue && isBottom(container)&& this.obj.contains(container.getId())){
-            System.out.println("if 1");
+        if(!operation.equals("noValid")){
             temp.setText(String.valueOf(cardValue));
             this.missingCard++;
             this.cardValid = true;
-            card.setVisibility(View.INVISIBLE);
-
-        }
-        else if(objValue>cardValue && !isBottom(container) && this.obj.contains(container.getId())){
-
-            System.out.println("if 2");
-            temp.setText(String.valueOf(cardValue));
-            this.missingCard++;
-            this.cardValid = true;
+            this.numOfCards--;
             card.setVisibility(View.INVISIBLE);
 
         }
         else{
-
-                System.out.println("if 3");
                 this.cardValid=false;
                 card.setVisibility(View.VISIBLE);
-                //container.removeView(card);
-                //this.cards.addView(card);
-
         }
+
+        updateNumOfCard(this.numOfCards);
 
     }
 
@@ -137,7 +106,6 @@ public class GameLogic {
                     this.usedCard.add(i);
                 }
             }
-            //this.cards.addView(card);
 
             try{
                 updateScore(this.usedCard.get(0));
@@ -154,7 +122,6 @@ public class GameLogic {
                 }
             }
 
-            //this.cards.addView(card);
             updateScore(this.usedCard.get(1));
 
             for (Integer missingcard:this.usedCard) {
@@ -163,10 +130,6 @@ public class GameLogic {
                     this.everyCards.get(missingcard).newValues();
                 }
             }
-
-            this.numOfCards-=2;
-            this.cardLeft.setText(String.valueOf(this.numOfCards+ " cartes restantes"));
-
 
 
             this.usedCard.removeAllElements();
@@ -179,6 +142,7 @@ public class GameLogic {
     }
 
 
+    //Vérifie si le container choisi est située dans le bas des objectifs.
     public boolean isBottom(ConstraintLayout container){
 
         if(container.getId() == R.id.bl_obj || container.getId() == R.id.br_obj ){
@@ -191,15 +155,10 @@ public class GameLogic {
     }
 
 
-    public void updateScore(int index){
 
-        totalScore += this.everyCards.get(index).score(this.numOfCards,Integer.parseInt(String.valueOf(this.objValue.getText())),String.valueOf(this.chronometer.getText()));
-        this.score.setText(String.valueOf(totalScore));
-    }
-
-
+    //Vérification de fin de partie au niveau du jeu global
     public boolean possiblePlayLeft(Vector<String>obj){
-        //Vérification de fin de partie.
+
 
         boolean notEqual=false;
         for(int i=0;i<this.everyCards.size()-1;i++){
@@ -211,39 +170,45 @@ public class GameLogic {
             }
         }
 
-        if(!notEqual || this.numOfCards == 0){
-
-            return false;
-        }
-
-        return true;
+        return notEqual && this.numOfCards != 0;
     }
 
 
-    public boolean cardValidationForObj(ConstraintLayout container, int cardValue, View card){
-
+    public String cardValidationForObj(ConstraintLayout container, int cardValue, View card){
 
         TextView temp= (TextView) container.getChildAt(0);
-
         this.objValue = temp;
-
-
-
         int objValue=Integer.parseInt(String.valueOf(temp.getText()));
 
-        if(cardValue>objValue && isBottom(container)&& this.obj.contains(container.getId())){
-            return true;
+        if((cardValue>objValue && isBottom(container) || objValue-10 == cardValue) && this.obj.contains(container.getId())){
+            return "botValid";
         }
-        else if(objValue>cardValue && !isBottom(container) && this.obj.contains(container.getId())){
-            return true;
+        else if ((objValue > cardValue && !isBottom(container)  || objValue+10 == cardValue) && this.obj.contains(container.getId())){
+            return "topValid";
         }
         else{
-
-            return false;
-
-
+            return "noValid";
         }
 
+    }
+
+
+    //Update toutes les valeurs des cartes dans le vector "valuesCard"
+    public void updateValues(){
+        this.valuesCard.removeAllElements();
+
+        for (Card card:this.everyCards) {
+            this.valuesCard.add(card.getValue());
+        }
+    }
+
+    public void updateScore(int index){
+        totalScore += this.everyCards.get(index).score(this.numOfCards,Integer.parseInt(String.valueOf(this.objValue.getText())),String.valueOf(this.chronometer.getText()));
+        this.score.setText(String.valueOf(totalScore + " pts"));
+    }
+
+    public void updateNumOfCard(int noc){
+        this.cardLeft.setText(String.valueOf(noc+ " cartes restantes"));
     }
 
 
